@@ -1,4 +1,7 @@
+use sqlx::{Connection, PgConnection};
 use std::net::TcpListener;
+use zero2prod::configuration::get_configuration;
+use zero2prod::startup;
 
 // Launch our application
 fn spawn_app() -> String {
@@ -7,7 +10,7 @@ fn spawn_app() -> String {
     // Get the random port
     let port = listener.local_addr().unwrap().port();
     // Launch the application
-    let server = zero2prod::run(listener).expect("Failed to bind address");
+    let server = startup::run(listener).expect("Failed to bind address");
     // Handle triggering the server to start similar to what tokio::main does!
     let _ = tokio::spawn(server);
     // Reply back with the address app is running on!
@@ -36,6 +39,11 @@ async fn health_check_works() {
 async fn subscribe_returns_a_200_for_valid_form_data() {
     // Arrange
     let app_address = spawn_app();
+    let configuration = get_configuration().expect("Failed to read configuration.");
+    let connection_string = configuration.database.connection_string();
+    let connection = PgConnection::connect(&connection_string)
+        .await
+        .expect("Failed to connect to Postgres.");
     let client = reqwest::Client::new();
 
     // Act
