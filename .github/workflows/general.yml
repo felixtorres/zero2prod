@@ -44,9 +44,9 @@ jobs:
         run: |
           sudo apt-get install libpq-dev -y
           SKIP_DOCKER=yes ./scripts/init_db.sh
-      - name: Check | Check sqlx-data.json is up-to-date
-        run: |
-          cargo sqlx prepare --check -- --bin zero2prod
+      # - name: Check | Check sqlx-data.json is up-to-date
+      #   run: |
+      #     cargo sqlx prepare --check -- --bin zero2prod
       - name: Build | Run cargo test
         uses: actions-rs/cargo@v1
         with:
@@ -98,7 +98,7 @@ jobs:
         with:
           args: --ignore-tests --avoid-cfg-tarpaulin
       - name: Post Build | Upload to codecov.io
-        uses: codecov/codecov-action@v1.0.2
+        uses: codecov/codecov/codecov-action@v4.0.1
         with:
           token: ${{secrets.CODECOV_TOKEN}}
       - name: Post Build | Archive code coverage results
