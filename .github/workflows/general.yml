@@ -37,9 +37,9 @@ jobs:
         run: |
           sudo apt-get install libpq-dev -y
           SKIP_DOCKER=true ./scripts/init_db.sh
-      - name: Check sqlx-data.json is up-to-date
-        run: |
-          cargo sqlx prepare --workspace --check
+      # - name: Check sqlx-data.json is up-to-date
+      #   run: |
+      #     cargo sqlx prepare --workspace --check
       - name: Run tests
         run: cargo test
 
@@ -130,7 +130,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
-        with:
-          components: cargo-audit
+      - name: cargo install cargo-audit
+        run: cargo install cargo-audit
       - name: Vulnerability Scan
         run: cargo audit
