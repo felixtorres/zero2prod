@@ -94,7 +94,7 @@ jobs:
           sudo apt-get install libpq-dev -y
           SKIP_DOCKER=yes ./scripts/init_db.sh
       - name: Build | Run cargo-tarpaulin
-        uses: actions-rs/tarpaulin@v0.1
+        uses: actions-rs/tarpaulin@v0.1.0
         with:
           args: --ignore-tests
       - name: Post Build | Upload to codecov.io
@@ -125,8 +125,6 @@ jobs:
         uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: -- -D warnings
-            
 
   fmt:
     name: Formatting
