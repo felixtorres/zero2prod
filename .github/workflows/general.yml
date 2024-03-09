@@ -98,7 +98,7 @@ jobs:
         with:
           args: --ignore-tests --avoid-cfg-tarpaulin
       - name: Post Build | Upload to codecov.io
-        uses: codecov/codecov/codecov-action@v4.0.1
+        uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{secrets.CODECOV_TOKEN}}
       - name: Post Build | Archive code coverage results
